@@ -1,7 +1,7 @@
 $(function() {
     function countDown(){
         let today = new Date();
-        let vDate = new Date(today.getFullYear(), 10, 30); // the month is 0-indexed
+        let vDate = new Date(today.getFullYear(), new Date(new Date().setDate(new Date().getDate() + 2)).getMonth(), new Date(new Date().setDate(new Date().getDate() + 2)).getDay()); // the month is 0-indexed
         const t = vDate.getTime() - today.getTime()
 
         const day = Math.floor(t / (1000*60*60*24));
