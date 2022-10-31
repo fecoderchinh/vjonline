@@ -1,7 +1,7 @@
 $(function() {
     function countDown(){
         let today = new Date();
-        let vDate = new Date(today.getFullYear(), 9, 31); // the month is 0-indexed
+        let vDate = new Date(today.getFullYear(), 10, 30); // the month is 0-indexed
         const t = vDate.getTime() - today.getTime()
 
         const day = Math.floor(t / (1000*60*60*24));
@@ -23,6 +23,34 @@ $(function() {
 
     setInterval(countDown ,1000)
 
+    const slider = document.querySelector('.dream-bg');
+    let mouseDown = false;
+    let startX, scrollLeft;
+
+    let startDragging = function (e) {
+        mouseDown = true;
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+    };
+    let stopDragging = function (event) {
+        mouseDown = false;
+    };
+
+    "mousemove".split(" ").forEach(function(event){
+        slider.addEventListener(event, (e) => {
+            e.preventDefault();
+            if(!mouseDown) { return; }
+            const x = e.pageX - slider.offsetLeft;
+            const scroll = x - startX;
+            slider.scrollLeft = scrollLeft - scroll;
+        });
+    });
+
+    // Add the event listeners
+    slider.addEventListener('mousedown', startDragging, false);
+    slider.addEventListener('mouseup', stopDragging, false);
+    slider.addEventListener('mouseleave', stopDragging, false);
+
     $(window).scroll(function() {
         var scrollTop = $(window).scrollTop();
         if ( scrollTop > 100 ) {
@@ -36,7 +64,7 @@ $(function() {
         if($(window).width() < 768) $('#banner').height($('#banner .img-mobi').height())
         else $('#banner').height($('#banner .img-desk').height())
 
-        $('.dream-bg').height($('.dream-bg > img').height())
+        // $('.dream-bg').height($('.dream-bg > img').height())
 
         if($(window).width() <= 575) {
             var flowItemHeight = 0;
